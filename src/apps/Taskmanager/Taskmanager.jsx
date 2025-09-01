@@ -5,6 +5,7 @@ import { Line, LineChart, ResponsiveContainer, YAxis } from "recharts";
 export function Taskmanager(){
     const [option, setOption] = useState("GPU")
     const [cpuData, setCpuData] = useState([])
+    const [memoryData, setMemoryData] = useState([])
 
     useEffect(() => {
         const generateInitialData = (baseValue, variance = 10, points = 60) => {
@@ -14,7 +15,8 @@ export function Taskmanager(){
             }))
         }
 
-        setCpuData(generateInitialData(27, 15))
+        setCpuData(generateInitialData(27, 15));
+        setMemoryData(generateInitialData(20, 5));
     }, [])
 
     useEffect(() => {
@@ -31,7 +33,8 @@ export function Taskmanager(){
                 return newData
             }
 
-            setCpuData(prev => updateData(prev, 27, 8))
+            setCpuData(prev => updateData(prev, 27, 8));
+            setMemoryData(prev => updateData(prev, 20, 3));
         }, 1000)
 
         return () => clearInterval(interval)
@@ -167,31 +170,76 @@ export function Taskmanager(){
                     </>
                     )}
 
-                    {/* <div className="text-xl">{option}</div>
-                    {option !== "GPU" ? (
-                        <>
-                        <div className="w-[100%] h-[70%] border [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px),repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px)]">
-                            
+                    {option === "Memory" && (
+                    <>
+                    <div>
+                        <div className="text-xl flex items-center justify-between">
+                        <p>Memory</p>
+                        <p>128.0 GB</p>
+                    </div>
+                    <div className="flex items-center justify-between text-xs text-gray-500 mt-1">
+                        <p>Memory usage</p>
+                        <p>{getCurrentValue(memoryData)}%</p>
+                    </div>
+                    <div className="h-60 pt-4 border [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px),repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px)]">
+                        <GraphComponent data={memoryData} color="#9d4edd" />   
+                    </div>
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                        <p>60 seconds</p>
+                        <p>0</p>
+                    </div>
+                    <div className="flex gap-5 mt-4">
+                        <div>
+                            <div className="flex gap-5 mt-1">
+                                <div>
+                                    <p className="text-gray-500 text-sm">In use (Compressed)</p>
+                                    <p>128 GB (24 GB)</p>
+                                </div>
+                                <div>
+                                    <p className="text-gray-500 text-sm">Available</p>
+                                    <p>625 MB</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-5 mt-1">
+                                <div>
+                                    <p className="text-gray-500 text-sm">Committed</p>
+                                    <p>16.3/19.4 GB</p>
+                                </div>
+                                <div>
+                                    <p className="text-gray-500 text-sm">Cached</p>
+                                    <p>611 MB</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-5 mt-1">
+                                <div>
+                                    <p className="text-gray-500 text-sm">Paged pool</p>
+                                    <p>944 MB</p>
+                                </div>
+                                <div>
+                                    <p className="text-gray-500 text-sm">Noon-paged pool</p>
+                                    <p>992 MB</p>
+                                </div>
+                            </div>
                         </div>
-                        </>
-                    ) :(
-                        <>
-                        <div className="flex flex-col gap-4">
-                        <div className="flex flex-1 gap-2">
-                            <div class="w-[50%] h-50 border bg-[length:32px_32px] [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px),repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px)]">3D</div>
-                            <div className="w-[50%] h-50 border bg-[length:32px_32px] [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px),repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px)]">Copy</div>
-                        </div>
-                        <div className="flex flex-1 gap-2">
-                            <div className="w-[50%] h-50 border bg-[length:32px_32px] [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px),repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px)]">Video Decode</div>
-                            <div className="w-[50%] h-50 border bg-[length:32px_32px] [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px),repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px)]">Video Processing</div>
+                        <div className=" w-50 flex justify-between mt-1">
+                            <div className="text-gray-500 text-sm">
+                                <p>Speed</p>
+                                <p>Slots used:</p>
+                                <p>Form factor:</p>
+                                <p>Hardware reserved:</p>
+                            </div>
+                            <div className="text-sm">
+                                <p>3200 MT/s</p>
+                                <p>1 of 1</p>
+                                <p>SODIMM</p>
+                                <p>217 MB</p>
+                            </div>
                         </div>
                     </div>
+                    </div>
+                    </>
+                    )}
 
-                    <div className="w-[100%] h-30 border bg-[length:32px_32px] [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_7px),repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px)]"></div>
-
-                    <div className="w-[100%] h-40 border"></div>
-                        </>
-                    )} */}
                 </div>
             </div>
         </div>
