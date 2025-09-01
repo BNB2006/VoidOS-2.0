@@ -12,7 +12,7 @@ export function Desktop() {
   }
 
   return (
-    <div className="w-screen h-screen text-white p-4 bg-[url(/bg.png)] bg-cover bg-center">
+    <div className="w-screen h-screen text-white p-4 bg-[url(/wallpaper.jpg)] bg-cover bg-center">
       {/* Desktop Icons Grid */}
       <div className="absolute h- top-4 left-4 grid grid-cols-2 grid-rows-7 gap-4">
         {apps.map((app) => (

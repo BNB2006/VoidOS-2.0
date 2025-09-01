@@ -20,11 +20,11 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
 
             <div className="py-1">
               <div className="grid grid-cols-3">
-                <div className="w-18 p-1 bg-gray-900 rounded-md flex flex-col items-center justify-center">
+                <div className="w-18 p-1 bg-black/70 rounded-md flex flex-col items-center justify-center">
                   <div className="text-red-400 text-2xl">{currentTime.getDate()}</div>
-                  <div className="">{currentTime.toLocaleString([], {month: "long"})}</div>
+                  <div className="text-xs">{currentTime.toLocaleString([], {month: "long"})}</div>
                 </div>
-                <div className="col-span-2  bg-gray-900 rounded-md flex items-center justify-between">
+                <div className="col-span-2  bg-black/70 rounded-md flex items-center justify-between">
                   <div className="p-3 ml-4 text-blue-400"><CloudSun size={34}/></div>
                   <div className="mr-5 text-sm text-center py-2">
                     <div className="flex items-center gap-2">28°C <ThermometerSunIcon className="text-yellow-200"/></div>
@@ -35,7 +35,7 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
             </div>
 
             <div className="py-1">
-              <div className=" bg-gray-900 rounded-md flex items-center px-9 gap-2 p-2">
+              <div className=" bg-black/70 rounded-md flex items-center px-9 gap-2 p-2">
                 <div className="w-16 h-16">
                   <img src="/assets/image/sand-watch.webp" alt="" className="" />
                 </div>
@@ -47,7 +47,7 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
             </div>
 
           <div className="py-1">
-            <div className=" bg-gray-900 flex gap-2 p-3 rounded-md">
+            <div className=" bg-black/70 flex gap-2 p-3 rounded-md">
               <div className="w-15"><img src={spotify[currentSong].imgUrl} alt="" className="rounded" /></div>
               <div className="flex flex-col items-center justify-center px-5">
                 <div className="text-sm text-red-200">{spotify[currentSong].song}</div>
@@ -63,7 +63,7 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
           </div>
 
             <div className="py-1">
-              <div className=" bg-gray-900 rounded-md p-7">
+              <div className=" bg-black/70 rounded-md p-7">
 
                 <div className="flex items-center space-x-3 py-1">
                   <div className="text-purple-400"><Headphones/></div>
@@ -97,7 +97,7 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
             </div>
 
             <div className="py-1">
-              <div className=" bg-gray-900 rounded-md p-7">
+              <div className=" bg-black/70 rounded-md p-7">
                 <input type="text" className="bg-gray-600 p-1 rounded-md ml-2 text-center outline-none" placeholder="🔍Seach..." />
                 <div className="flex items-center justify-around mt-3">
                   <Power className="text-red-400 cursor-not-allowed"/>
