@@ -6,6 +6,7 @@ export function Taskmanager(){
     const [option, setOption] = useState("GPU")
     const [cpuData, setCpuData] = useState([])
     const [memoryData, setMemoryData] = useState([])
+    const [diskData, setDiskData] = useState([])
 
     useEffect(() => {
         const generateInitialData = (baseValue, variance = 10, points = 60) => {
@@ -17,6 +18,7 @@ export function Taskmanager(){
 
         setCpuData(generateInitialData(27, 15));
         setMemoryData(generateInitialData(20, 5));
+        setDiskData(generateInitialData(30, 17));
     }, [])
 
     useEffect(() => {
@@ -35,6 +37,7 @@ export function Taskmanager(){
 
             setCpuData(prev => updateData(prev, 27, 8));
             setMemoryData(prev => updateData(prev, 20, 3));
+            setDiskData(prev => updateData(prev, 27, 12))
         }, 1000)
 
         return () => clearInterval(interval)
@@ -236,6 +239,67 @@ export function Taskmanager(){
                             </div>
                         </div>
                     </div>
+                    </div>
+                    </>
+                    )}
+
+                    {option === "Disk" && (
+                    <>
+                    <div className="text-xl flex items-center justify-between">
+                        <p>Disk 0 (C: D)</p>
+                        <p>NVMe SOLIDHM SSDPFINX512GLZ</p>
+                    </div>
+                    <div className="flex items-center justify-between text-xs text-gray-500 mt-1">
+                        <p>Active time</p>
+                        <p>{getCurrentValue(diskData)}%</p>
+                    </div>
+                    <div className="h-60 pt-4 border [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px),repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px)]">
+                        <GraphComponent data={diskData} color="#ffd60a"/>
+                    </div>
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                        <p>60 seconds</p>
+                        <p>0</p>
+                    </div>
+                    <div className="flex gap-5 mt-4">
+                        <div>
+                            <div className="flex gap-5 mt-1">
+                                <div>
+                                    <p className="text-gray-500 text-sm">Active time</p>
+                                    <p>4%</p>
+                                </div>
+                                <div>
+                                    <p className="text-gray-500 text-sm">Average response time</p>
+                                    <p>0.2 ms</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-5 mt-1">
+                                <div>
+                                    <p className="text-gray-500 text-sm">Read speed</p>
+                                    <p>3.8 KB/s</p>
+                                </div>
+                                <div>
+                                    <p className="text-gray-500 text-sm">Write speed</p>
+                                    <p>210 KB/s</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="w-50 flex justify-between mt-1">
+                            <div className="text-sm text-gray-500">
+                                <p>Capacity:</p>
+                                <p>Formatted:</p>
+                                <p>System Disk:</p>
+                                <p>page file:</p>
+                                <p>Type:</p>
+                            </div>
+                            <div className="text-sm">
+                                <p>512 TB</p>
+                                <p>512 TB</p>
+                                <p>Yes</p>
+                                <p>Yes</p>
+                                <p>SSD</p>
+                            </div>
+                        </div>
                     </div>
                     </>
                     )}
