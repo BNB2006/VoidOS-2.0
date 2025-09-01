@@ -59,8 +59,7 @@ export function Taskmanager(){
 
 
     return(
-        <div className="bg-[#191919] h-full text-white">
-            <div className="overflow-y-hidden">
+        <div className="bg-[#191919] h-full text-white overflow-y-auto">
             <div className="border-b border-gray-600 p-2">Performance</div>
             <div className="flex">
                 <div className="w-[15%] p-2">
@@ -87,21 +86,20 @@ export function Taskmanager(){
                     </div>
                 </div>
 
-                <div className=" flex-1 flex flex-col p-2 gap-2">
+                <div className="flex-1 flex flex-col p-4">
                     {option === "CPU" && (
                     <>
                     <div>
                         <div className="text-xl flex items-center justify-between">
-                            <p>CPU</p>
-                            <p>11th Gen Intel(R) Core(TM) i5-11320 @3.20GHz</p>
-                        </div>
+                        <p>CPU</p>
+                        <p>15th Gen Intel(R) Core(TM) i9-99990 @3.20GHz</p>
                     </div>
-                    <div className="flex items-center justify-between text-xs">
-                        <p>% Utlization</p>
+                    <div className="flex items-center justify-between text-xs mt-1">
+                        <p>% Utilization</p>
                         <p>{getCurrentValue(cpuData)}%</p>
                     </div>
-                    <div className="h-60 p-4 border [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px),repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px)]">
-                        <GraphComponent data={cpuData} color="#00ff41"/>
+                    <div className="h-60 pt-4  border [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px),repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0px,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_32px)]">
+                        <GraphComponent data={cpuData} color="#ff0d00" />   
                     </div>
                     <div className="flex items-center justify-between text-gray-400 text-xs">
                         <p>60 seconds</p>
@@ -109,21 +107,22 @@ export function Taskmanager(){
                     </div>
 
                     <div className="flex gap-5 mt-4">
-                        <div>
+                        <div className="">
+
                             <div className="flex gap-5">
                                 <div>
                                     <p className="text-gray-500 text-sm">Utilization</p>
                                     <p>27%</p>
                                 </div>
                                 <div>
-                                    <p className="text-gray-500 text-sm">speed</p>
-                                    <p>3.28GHz</p>
+                                    <p className="text-gray-500 text-sm">Speed</p>
+                                    <p>3.28 GHz</p>
                                 </div>
                             </div>
 
                             <div className="flex gap-5">
                                 <div>
-                                    <p className="text-gray-500 text-sm">Processess</p>
+                                    <p className="text-gray-500 text-sm">Processes</p>
                                     <p>311</p>
                                 </div>
                                 <div>
@@ -141,16 +140,16 @@ export function Taskmanager(){
                             </div>
                         </div>
 
-                        <div className="w-50 flex justify-between">
+                        <div className=" w-50 flex justify-between">
                             <div className="text-gray-500 text-sm">
-                                <p>Base speed:</p>
-                                <p>Scokets:</p>
+                                <p>Base speed</p>
+                                <p>Sockets:</p>
                                 <p>Cores:</p>
-                                <p>Logical processors:</p>
+                                <p>Logical processors</p>
                                 <p>Virtualization:</p>
                                 <p>L1 cache:</p>
-                                <p>L2 cache:</p>
-                                <p>L3 cache</p>
+                                <p>L1 cache:</p>
+                                <p>L1 cache:</p>
                             </div>
                             <div className="text-sm">
                                 <p>3.19 GHz</p>
@@ -158,11 +157,12 @@ export function Taskmanager(){
                                 <p>4</p>
                                 <p>8</p>
                                 <p>Enabled</p>
-                                <p>320 Kb</p>
+                                <p>320 KB</p>
                                 <p>5.0 MB</p>
                                 <p>8.0 MB</p>
                             </div>
                         </div>
+                    </div>
                     </div>
                     </>
                     )}
@@ -193,7 +193,6 @@ export function Taskmanager(){
                         </>
                     )} */}
                 </div>
-            </div>
             </div>
         </div>
     )
