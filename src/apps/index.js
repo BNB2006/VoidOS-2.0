@@ -7,6 +7,7 @@ import { VSCode } from "./Iframe_Apps/VSCode"
 import { NoteBook } from "./NoteBook/NoteBook"
 import { Map } from "./Iframe_Apps/Map"
 import { Browser } from "./Browser/Browser"
+import { Taskmanager } from "./Taskmanager/Taskmanager"
 
  
 export const apps = [
@@ -52,6 +53,17 @@ export const apps = [
       width: 34,
     }),
     component: React.createElement(Terminal),
+    defaultSize: { width: 400, height: 300 },
+  },
+  {
+    id: "taskmanager",
+    title: "Task Manager",
+    icon: React.createElement("img", {
+      src: "/Logo/task.png",
+      alt: "Taskmanager logo",
+      width: 34,
+    }),
+    component: React.createElement(Taskmanager),
     defaultSize: { width: 400, height: 300 },
   },
   {
