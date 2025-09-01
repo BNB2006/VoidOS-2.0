@@ -64,7 +64,7 @@ export const apps = [
       width: 34,
     }),
     component: React.createElement(Taskmanager),
-    defaultSize: { width: 400, height: 300 },
+    defaultSize: { width: 700, height: 500 },
   },
   {
     id: "calculator",
