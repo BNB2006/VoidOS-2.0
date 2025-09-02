@@ -1,8 +1,9 @@
-import { Bell, Menu, Mic, Plus, Search } from "lucide-react";
+import { Bell, History, Home, Menu, Mic, Plus, Search, ThumbsUp } from "lucide-react";
 import { useState } from "react";
 
 export function Youtube(){
     const [toggleNotification, setToggleNotification] = useState(false);
+    const [section, setSection] = useState("Home")
 
     return(
     <>
@@ -53,7 +54,55 @@ export function Youtube(){
             )}
 
 
-        <div className="flex w-full h-full bg-blue-400"></div>
+        <div className="flex w-full h-full">
+            <div className="w-[13%] min-w-40 h-full p-2">
+                <div className={`flex items-center gap-5 cursor-pointer ${section === "Home" ? 'bg-[#222222] rounded-lg' : ''}`}
+                    onClick={() => {
+                        setSection("Home")
+                    }}
+                >
+                    <Home size={20} className="ml-2"/>
+                    <span className="p-2 text-sm">Home</span>
+                </div>
+                <div className={`flex items-center gap-5 cursor-pointer ${section === "Like" ? 'bg-[#222222] rounded-lg' : ''}`}
+                    onClick={() => {
+                        setSection("Like")
+                    }}
+                >
+                    <ThumbsUp size={20} className="ml-2"/>
+                    <span className="p-2 text-sm">Liked videos</span>
+                </div>
+                <div className={`flex items-center gap-5 cursor-pointer ${section === "History" ? 'bg-[#222222] rounded-lg' : ''}`}
+                    onClick={() => {
+                        setSection("History")
+                    }}
+                >
+                    <History size={20} className="ml-2"/>
+                    <span className="p-2 text-sm">History</span>
+                </div>
+            </div>
+
+            {section === "Home" && (
+            <>
+            <div>Home</div>
+            </>
+            )}
+
+            {section === "Like" && (
+            <>
+            <div>Liked videos 💘</div>
+            </>
+            )}
+
+            {section === "History" && (
+            <>
+            <div>History</div>
+            </>
+            )}
+
+            
+
+        </div>
 
     </div>
     </>
