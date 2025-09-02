@@ -1,4 +1,4 @@
-import { Bell, CircleCheckBig, History, Home, Menu, Mic, Plus, Search, ThumbsUp } from "lucide-react";
+import { Bell, CircleCheckBig, History, Home, Menu, Mic, Plus, Search, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import { useState } from "react";
 
 export function Youtube(){
@@ -11,7 +11,9 @@ export function Youtube(){
         src:"https://www.youtube.com/embed/_NJvncbpcCA?si=gYlq9oPETJE0ZAcL", 
         channelName:"Diguslsekai", profilePicture:"/assets/image/song2.jpeg",
         views:"301K", postDate:"1 day", subscribers:"24.7M",
-    })
+    });
+
+    const [likes, setLikes] = useState([])
 
     const [videos, setVideos] = useState([
     {
@@ -276,6 +278,10 @@ export function Youtube(){
     ])
 
     const playVideo = (videoDetails) => {
+        const videoInVideos = videos.find(v => v.id === videoDetails.id);
+        const isVideoLiked = videoInVideos ? videoInVideos.isLiked : false;
+        const isVideoDisliked = videoInVideos ? videoInVideos.isDisliked : false;
+
         setPlay({
             id: videoDetails.id,
             title: videoDetails.title,
@@ -285,9 +291,81 @@ export function Youtube(){
             profilePicture: videoDetails.profilePicture,
             postDate: videoDetails.postDate,
             subscribers: videoDetails.subscribers,
+            isLiked: isVideoLiked,
+            isDisliked: isVideoDisliked,
         });
         setIsPlaying(true);
         setSection("");
+    }
+
+    const removeFromLikes = (videoID) => {
+        setLikes((prev) => prev.filter((video) => video.id !== videoID));
+        setVideos((prev) => prev.map((video) =>
+            video.id === videoID ? {...video, isLiked: false} : video
+        ));
+
+        if(play.id === videoID){
+            setPlay(prev => ({...prev, isLiked: false}));
+        }
+    }
+
+    const likeVideo = () => {
+        const currentVideoId = play.id;
+        const isCurrentlyLiked = play.isLiked;
+
+        setPlay(prev => ({
+            ...prev,
+            isLiked: !isCurrentlyLiked,
+            isDisliked: isCurrentlyLiked ? false : prev.isDisliked
+        }));
+
+        setVideos(prev => prev.map(video => 
+            video.id === currentVideoId ? {
+                ...video,
+                isLiked: !isCurrentlyLiked,
+                isDisliked: !isCurrentlyLiked ? false : video.isDisliked
+            } : video
+        ));
+
+        if(!isCurrentlyLiked){
+            const videoToAdd = videos.find(v => v.id === currentVideoId)
+            if(videoToAdd){
+                setLikes(prev => [
+                    {
+                        ...videoToAdd,
+                        isLiked: true,
+                        LikedAt: new Date().toLocaleString()
+                    },
+                    ...prev
+                ]);
+            }
+        } else {
+            setLikes(prev => prev.filter(video => video.id !== currentVideoId))
+        }
+    };
+
+    const dislikeVideo = () => {
+        const currentVideoId = play.id;
+        const isCurrentlyDisliked = play.isDisliked;
+
+        setPlay(prev => ({
+            ...prev,
+            isDisliked: !isCurrentlyDisliked,
+            isLiked: !isCurrentlyDisliked ? false : prev.isLiked
+        }));
+
+        setVideos(prev => prev.map(video =>
+            video.id === currentVideoId ? {
+                ...video,
+                isDisliked: !isCurrentlyDisliked,
+                isLiked: !isCurrentlyDisliked ? false : video.isLiked
+            } : video
+        ));
+
+        if(!isCurrentlyDisliked && play.isLiked){
+            setLikes(prev => prev.filter(video => video.id !== currentVideoId));
+        }
+
     }
 
     return(
@@ -409,6 +487,22 @@ export function Youtube(){
                                         <p className="text-gray-400 text-xs">{play.subscribers} Subscribers</p>
                                     </div>
                                 </div>
+                                <div className="bg-[#272727] rounded-full flex items-center overflow-hidden">
+                                    <button className={`px-3 py-2 flex items-center gap-2 hover:bg-[#3f3f3f] transition-colors ${
+                                        play.isLiked ? 'text-gray-300' : 'text-white'
+                                    }`}
+                                    onClick={likeVideo}
+                                    >
+                                        <ThumbsUp size={18} className={play.isLiked ? 'fill-current' : ''}/>
+                                        <span className="text-sm">69K</span>
+                                    </button>
+                                    <div className="w-px h-6 bg-gray-600"></div>
+                                    <button className="px-4 py-2 flex items-center gap-2 hover:bg-[#3f3f3f] transition-colors"
+                                    onClick={dislikeVideo}
+                                    >
+                                        <ThumbsDown size={18} className={play.isDisliked ? 'fill-current' : "not-only-of-type:"}/>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -431,10 +525,61 @@ export function Youtube(){
             )}
 
             {section === "Like" && (
-            <>
-            <div>Liked videos 💘</div>
-            </>
-            )}
+                <>
+                {likes.length > 0 ? (
+                    <div className="flex-1 flex flex-col mb-15 p-4">
+                        <div className="pb-5 text-2xl font-bold mb-4">
+                            Liked Videos ({likes.length})
+                        </div>
+
+                        <div className="h-full overflow-y-auto">
+                            {likes.map((video) => (
+                                <div key={video.id} className="flex p-3 my-2 bg-[#1a1a1a] rounded-lg hover:bg-[#252525] transition-colors">
+                                    <div onClick={() => playVideo(video)} className="flex gap-4 cursor-pointer flex-1">
+                                        <img src={video.thumbnail} alt="" className="w-48 h-32 object-cover rounded-md"/>
+                                        <div className="flex flex-col justify-start">
+                                            <span className="text-lg font-medium">{video.title}</span>
+                                            <div className="flex items-center gap-2 py-1.5">
+                                                <img src={video.profilePicture} className="w-6 h-6 rounded-full" alt="" />
+                                                <span className="text-sm text-gray-400 flex items-center gap-2">
+                                                    {video.channelName} 
+                                                    <CircleCheckBig className="w-3 text-blue-500"/> 
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-sm text-gray-400">
+                                                <span>{video.views} views</span>
+                                                <span>|</span>
+                                                <span>{video.postDate} ago</span>
+                                            </div>
+                                            <span className="text-gray-400 text-sm">Liked on {video.likedAt}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col justify-between items-end">
+                                        <button 
+                                            className="p-2 hover:bg-[#4f4a4a22]  rounded-md transition-colors" 
+                                            onClick={() => removeFromLikes(video.id)}
+                                            title="Remove from liked videos"
+                                        >
+                                            <X size={18}/>
+                                        </button>
+                                        <div className="flex items-center gap-1 text-xs">
+                                            <ThumbsUp size={14} className="fill-current"/>
+                                            <span>Liked</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    ) : (
+                        <div className="flex-1 flex flex-col items-center justify-center">
+                            <div className="text-6xl mb-4">💔</div>
+                            <p className="text-2xl mb-2">No liked videos yet</p>
+                            <span className="text-gray-400">Videos you like will appear here</span>
+                        </div>
+                    )}
+                    </>
+                )}
 
             {section === "History" && (
             <>
