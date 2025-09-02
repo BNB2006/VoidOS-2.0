@@ -8,6 +8,7 @@ import { NoteBook } from "./NoteBook/NoteBook"
 import { Map } from "./Iframe_Apps/Map"
 import { Browser } from "./Browser/Browser"
 import { Taskmanager } from "./Taskmanager/Taskmanager"
+import { Youtube } from "./YouTube/Youtube"
 
  
 export const apps = [
@@ -65,6 +66,17 @@ export const apps = [
     }),
     component: React.createElement(Taskmanager),
     defaultSize: { width: 700, height: 500 },
+  },
+  {
+    id: "youtube",
+    title: "Youtube",
+    icon: React.createElement("img", {
+      src: "/Logo/youtube.png",
+      alt: "Youtube logo",
+      width: 34,
+    }),
+    component: React.createElement(Youtube),
+    defaultSize: { width: 809, height: 500 },
   },
   {
     id: "calculator",
