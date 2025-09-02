@@ -1,9 +1,17 @@
-import { Bell, History, Home, Menu, Mic, Plus, Search, ThumbsUp } from "lucide-react";
+import { Bell, CircleCheckBig, History, Home, Menu, Mic, Plus, Search, ThumbsUp } from "lucide-react";
 import { useState } from "react";
 
 export function Youtube(){
     const [toggleNotification, setToggleNotification] = useState(false);
     const [section, setSection] = useState("Home")
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [play, setPlay] = useState({
+        id:1,
+        title:"Bal Hanuman Official Trailer Digus Isekai", 
+        src:"https://www.youtube.com/embed/_NJvncbpcCA?si=gYlq9oPETJE0ZAcL", 
+        channelName:"Diguslsekai", profilePicture:"/assets/image/song2.jpeg",
+        views:"301K", postDate:"1 day", subscribers:"24.7M",
+    })
 
     const [videos, setVideos] = useState([
     {
@@ -267,6 +275,21 @@ export function Youtube(){
     },
     ])
 
+    const playVideo = (videoDetails) => {
+        setPlay({
+            id: videoDetails.id,
+            title: videoDetails.title,
+            src: videoDetails.src,
+            channelName: videoDetails.channelName,
+            views: videoDetails.views,
+            profilePicture: videoDetails.profilePicture,
+            postDate: videoDetails.postDate,
+            subscribers: videoDetails.subscribers,
+        });
+        setIsPlaying(true);
+        setSection("");
+    }
+
     return(
     <>
     <div className="bg-[#0f0f0f] w-full h-full text-white overflow-y-hidden overflow-x-hidden">
@@ -321,6 +344,7 @@ export function Youtube(){
                 <div className={`flex items-center gap-5 cursor-pointer ${section === "Home" ? 'bg-[#222222] rounded-lg' : ''}`}
                     onClick={() => {
                         setSection("Home")
+                        setIsPlaying(false)
                     }}
                 >
                     <Home size={20} className="ml-2"/>
@@ -329,6 +353,7 @@ export function Youtube(){
                 <div className={`flex items-center gap-5 cursor-pointer ${section === "Like" ? 'bg-[#222222] rounded-lg' : ''}`}
                     onClick={() => {
                         setSection("Like")
+                        setIsPlaying(false)
                     }}
                 >
                     <ThumbsUp size={20} className="ml-2"/>
@@ -337,6 +362,7 @@ export function Youtube(){
                 <div className={`flex items-center gap-5 cursor-pointer ${section === "History" ? 'bg-[#222222] rounded-lg' : ''}`}
                     onClick={() => {
                         setSection("History")
+                        setIsPlaying(false)
                     }}
                 >
                     <History size={20} className="ml-2"/>
@@ -348,7 +374,7 @@ export function Youtube(){
             <>
             <div className="flex-1 gap-5 mb-17 flex flex-wrap overflow-y-auto">
                 {videos.map((details) => (
-                    <div className="w-102 cursor-pointer">
+                    <div className="w-102 cursor-pointer" onClick={() => playVideo(details)}>
                         <img src={details.thumbnail} className="w-[100%] rounded"/>
                         <div className="flex items-center gap-2 pt-1">
                             <img src={details.profilePicture} className="w-8 h-8 rounded-full" />
@@ -362,6 +388,45 @@ export function Youtube(){
                 ))}
 
             </div>
+            </>
+            )}
+
+            {isPlaying && (
+            <>
+                <div className="flex-1 flex">
+                    <div className="w-[900px] h-full">
+                        <iframe src={play.src} className="w-[100%] h-[500px] rounded-md" frameborder="0"
+                            title="Youtube Video Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-cross-origin" allowFullScreen
+                        />
+                        <div className="mt-2 w-[100%]">
+                            <p className="text-2xl">{play.title}</p>
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-5 mt-2">
+                                    <img src={play.profilePicture} className="w-8 h-8 rounded-full" alt="" />
+                                    <div>
+                                        <p className="text-sm flex items-center gap-2">{play.channelName} <CircleCheckBig className="text-blue-500 w-4"/></p>
+                                        <p className="text-gray-400 text-xs">{play.subscribers} Subscribers</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex-1 px-2 text-3xl w-[402px] mb-15  overflow-y-auto">
+                        {videos.filter(video => video.id !== play.id).map((video)=>(
+                        <div className="w-[394px] h-[95px] flex gap-2 my-2 cursor-pointer hover:bg-[#161616]" onClick={() => playVideo(video)}>
+                            <img src={video.thumbnail} alt="" className="w-[168px] rounded-sm"/>
+                            <div className="flex flex-col">
+                                <span className="text-[1rem] overflow-hidden">{video.title}</span>
+                                <span className="text-sm text-gray-400">{video.channelName}</span>
+                                <span className="text-sm text-gray-400">{video.views} views • {video.postDate} ago</span>
+                            </div>
+                        </div>
+                        ))}
+                    </div>
+
+                </div>
             </>
             )}
 
