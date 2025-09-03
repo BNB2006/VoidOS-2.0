@@ -18,7 +18,7 @@ export function Browser(){
     const iframeRef = useRef(null)
 
     const [showHistory, setShowHistory] = useState(false)
-    const [history, setHistory] = useState([{id: 1, title: "Google", url: "https://www.google.com", visitedAt: new Date().toLocaleTimeString([], {hour: "2-digit", minute:"2-digit"})},])
+    const [history, setHistory] = useState([])
 
     const toggleHistory = () => {
       setShowHistory(!showHistory)

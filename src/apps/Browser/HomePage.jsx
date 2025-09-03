@@ -40,7 +40,7 @@ export function HomePage({ onNavigate }){
                 </div>
 
                 <form onSubmit={handleSearchSubmit} className="flex items-center bg-black/40 rounded">
-                    <input type="text" className="p-2 w-100 outline-none" placeholder="Search Sharingan or Enter URL" value={searchInput} onChange={(e) => setSearchInput(e.target.value)}/>
+                    <input type="text" className="p-2 w-100 outline-none" placeholder="Search or Enter URL" value={searchInput} onChange={(e) => setSearchInput(e.target.value)}/>
                     <button type="submit" className="p-2 hover:text-violet-600 border-l border-white"><Search/></button>
                 </form>
                 <div className="flex items-center p-4 gap-2 ">
