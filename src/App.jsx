@@ -39,10 +39,12 @@ function App() {
   }, []);
 
   useEffect(()=>{
-    if(systemState === "loading") startLoader(0);
+    if(systemState === "restarting" | systemState === "loading") startLoader();
   }, [systemState]);
   
-  if( isLoading | systemState === "loading") return <Loader progress={progress}/>
+  if(systemState === "restarting") return <Loader progress={progress} message="Restarting"/>
+
+  if( isLoading | systemState === "loading") return <Loader progress={progress} message="Loading"/>
 
   return (
     <div className="h-screen w-full overflow-hidden">

@@ -1,8 +1,10 @@
 import { CloudSun, BatteryMedium, Headphones, Sun, Cpu, Power, RefreshCcw, Lock, Moon, LogOut, ThermometerSunIcon, SkipBack, Play, SkipForward, Pause } from "lucide-react"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { SystemContext } from "../../Context/SystemContext";
 
 export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, onBack }) {
     const [currentTime, setCurrentTime] = useState(new Date())
+    const {restart} = useContext(SystemContext);
 
     useEffect(() => {
       const timer = setInterval(() => {
@@ -100,11 +102,21 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
               <div className=" bg-black/70 rounded-md p-7">
                 <input type="text" className="bg-gray-600 p-1 rounded-md ml-2 text-center outline-none" placeholder="🔍Seach..." />
                 <div className="flex items-center justify-around mt-3">
-                  <Power className="text-red-400 cursor-not-allowed"/>
-                  <RefreshCcw className="text-violet-300 cursor-not-allowed"/>
-                  <Lock className="text-green-300 cursor-not-allowed"/>
-                  <Moon className="text-blue-300 cursor-not-allowed"/>
-                  <LogOut className="text-orange-300 cursor-not-allowed"/>
+                  <button title="comming soon..." className="text-red-400 cursor-not-allowed">
+                    <Power />
+                  </button>
+                  <button title="Restart" className="text-violet-300 cursor-pointer" onClick={restart}>
+                    <RefreshCcw />
+                  </button>
+                  <button title="comming soon..." className="text-green-300 cursor-not-allowed">
+                    <Lock />
+                  </button>
+                  <button title="comming soon..." className="text-blue-300 cursor-not-allowed">
+                    <Moon />
+                  </button>
+                  <button title="comming soon..." className="text-orange-300 cursor-not-allowed">
+                    <LogOut />
+                  </button>
                 </div>
               </div>
             </div>
