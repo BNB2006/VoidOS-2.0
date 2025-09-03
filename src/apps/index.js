@@ -116,7 +116,18 @@ export const apps = [
     title: "Map",
     icon: React.createElement("img", {
       src: "/Logo/location.png",
-      alt: "Calculos",
+      alt: "map",
+      width: 34,
+    }),
+    component: React.createElement(Map),
+    defaultSize: { width: 500, height: 400 },
+  },
+  {
+    id: "camera",
+    title: "Camera",
+    icon: React.createElement("img", {
+      src: "/Logo/camera.png",
+      alt: "camera",
       width: 34,
     }),
     component: React.createElement(Map),
