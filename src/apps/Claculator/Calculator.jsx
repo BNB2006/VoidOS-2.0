@@ -78,11 +78,11 @@ export function Calculator() {
   ]
 
   return (
-    <div className="w-full max-w-xs mx-auto p-2">
-      {/* Calculator Display */}
-      <div className="bg-black text-white text-right text-2xl p-4 mb-2 rounded">{display}</div>
+    <div className="bg-[#333232] h-full flex items-center justify-center">
+      <div className="w-100 p-2 bg-[#222222]">
 
-      {/* Calculator Buttons */}
+        <div className="bg-black text-white text-right text-5xl p-4 mb-2 rounded">{display}</div>
+
       <div className="grid gap-1">
         {buttons.map((row, i) => (
           <div key={i} className="grid grid-cols-4 gap-1">
@@ -90,11 +90,11 @@ export function Calculator() {
               <button
                 key={btn}
                 className={`
-                  h-12 rounded border
+                  h-15 rounded border
                   ${
                     ["+", "-", "*", "/", "="].includes(btn)
-                      ? "bg-blue-500 text-white hover:bg-blue-600" // Operation buttons
-                      : "bg-gray-200 hover:bg-gray-300" // Number buttons
+                      ? "bg-blue-500 text-white hover:bg-blue-600"
+                      : "bg-gray-300 hover:bg-gray-400"
                   }
                   ${btn === "0" ? "col-span-2" : ""} // Zero button spans 2 columns
                 `}
@@ -104,7 +104,6 @@ export function Calculator() {
                   } else if (["+", "-", "*", "/", "="].includes(btn)) {
                     handleOperation(btn)
                   } else if (btn !== "±" && btn !== "%") {
-                    // Handle number and decimal point
                     handleNumber(btn)
                   }
                 }}
@@ -114,6 +113,8 @@ export function Calculator() {
             ))}
           </div>
         ))}
+      </div>
+
       </div>
     </div>
   )

@@ -88,7 +88,7 @@ export const apps = [
       width: 34,
     }),
     component: React.createElement(Calculator),
-    defaultSize: { width: 300, height: 400 },
+    defaultSize: { width: 400, height: 460 },
   },
   {
     id: "vsCode",
