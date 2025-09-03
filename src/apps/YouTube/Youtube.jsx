@@ -1,4 +1,4 @@
-import { Bell, CircleCheckBig, History, Home, Menu, Mic, Plus, Search, ThumbsDown, ThumbsUp, X } from "lucide-react";
+import { Bell, CircleCheckBig, History, Home, Menu, Mic, Plus, Search, ThumbsDown, ThumbsUp, Video, X } from "lucide-react";
 import { useState } from "react";
 
 export function Youtube(){
@@ -14,6 +14,7 @@ export function Youtube(){
     });
 
     const [likes, setLikes] = useState([])
+    const [history, setHistory] = useState([]);
 
     const [videos, setVideos] = useState([
     {
@@ -296,7 +297,24 @@ export function Youtube(){
         });
         setIsPlaying(true);
         setSection("");
-    }
+
+        setHistory((prev) => [
+            {
+                id: Date.now(),
+                title: videoDetails.title,
+                src: videoDetails.src,
+                views: videoDetails.views,
+                thumbnail: videoDetails.thumbnail,
+                channelName: videoDetails.channelName,
+                time: new Date().toLocaleTimeString([], {hour: "2-digit", minute:"2-digit"})
+            },
+            ...prev.slice(0, 99),
+        ]);
+    };
+
+    const removeFromHistory = (videoID) => {
+        setHistory((prev) => prev.filter((video) => video.id !== videoID));
+    };
 
     const removeFromLikes = (videoID) => {
         setLikes((prev) => prev.filter((video) => video.id !== videoID));
@@ -452,7 +470,7 @@ export function Youtube(){
             <>
             <div className="flex-1 gap-5 mb-17 flex flex-wrap overflow-y-auto">
                 {videos.map((details) => (
-                    <div className="w-102 cursor-pointer" onClick={() => playVideo(details)}>
+                    <div key={details.id} className="w-102 cursor-pointer" onClick={() => playVideo(details)}>
                         <img src={details.thumbnail} className="w-[100%] rounded"/>
                         <div className="flex items-center gap-2 pt-1">
                             <img src={details.profilePicture} className="w-8 h-8 rounded-full" />
@@ -473,7 +491,7 @@ export function Youtube(){
             <>
                 <div className="flex-1 flex">
                     <div className="w-[900px] h-full">
-                        <iframe src={play.src} className="w-[100%] h-[500px] rounded-md" frameborder="0"
+                        <iframe src={play.src} className="w-[100%] h-[500px] rounded-md" frameBorder="0"
                             title="Youtube Video Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerPolicy="strict-origin-cross-origin" allowFullScreen
                         />
@@ -509,7 +527,7 @@ export function Youtube(){
 
                     <div className="flex-1 px-2 text-3xl w-[402px] mb-15  overflow-y-auto">
                         {videos.filter(video => video.id !== play.id).map((video)=>(
-                        <div className="w-[394px] h-[95px] flex gap-2 my-2 cursor-pointer hover:bg-[#161616]" onClick={() => playVideo(video)}>
+                        <div key={video.id} className="w-[394px] h-[95px] flex gap-2 my-2 cursor-pointer hover:bg-[#161616]" onClick={() => playVideo(video)}>
                             <img src={video.thumbnail} alt="" className="w-[168px] rounded-sm"/>
                             <div className="flex flex-col">
                                 <span className="text-[1rem] overflow-hidden">{video.title}</span>
@@ -582,11 +600,50 @@ export function Youtube(){
                 )}
 
             {section === "History" && (
-            <>
-            <div>History</div>
-            </>
-            )}
+                <>
+                {history.length > 0 ? (
+                    <div className="flex-1 flex flex-col mb-15">
+                        <div className="pb-5 ml-[27%] text-5xl">
+                            Watch History
+                        </div>
 
+                        <div className="h-full overflow-y-auto">
+                            {history.map((video) => (
+                                <div key={video.id} className="flex p-2 my-2 max-h-30 bg-[#45454522] rounded-md">
+                                <div onClick={() => playVideo(video)} className="flex gap-2 cursor-pointer">
+                                    <img src={video.thumbnail} alt="" className=" rounded-sm"/>
+                                    <div className="flex flex-col">
+                                        <span className="text-xl ">{video.title}</span>
+                                        <div className="flex items-center gap-5 ">
+                                            <span className="text-md text-gray-400 flex items-center gap-2">{video.channelName} <CircleCheckBig className=" w-4"/> </span>
+                                            <span className="text-shadow-md text-gray-400">{video.views} views</span>
+                                        </div>
+                                        <span className="text-sm text-gray-400 mr-1 overflow-hidden">Lorem ipsum dolor sit amet consectetur hhdg hjhjjhjhjh adipisicing elit. Amet exercitationem debitis placeat ullam accusantium. Accusamus quos ipsum similique atque quibusdam!</span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col justify-between">
+                                    <button className="flex justify-end" onClick={() => removeFromHistory(video.id)}>
+                                        <span className="p-2 hover:bg-[#4f4a4a22] rounded-md">
+                                            <X size={15}/>
+                                        </span></button>
+                                    <p className="text-xs bg-[#4f4a4a22] w-20 py-2 flex items-center justify-center rounded-sm">{video.time}</p>
+                                </div>
+                            </div>
+                            ))}
+                        </div>
+
+                    </div>
+                    ):(
+                    <>
+                    <div className="flex-1 flex flex-col items-center justify-center">
+                        <div className="text-6xl mb-4">🕐</div>
+                        <span className="text-2xl">No videos in history</span>
+                        <span className="text-gray-400 mt-2">Videos you watch will appear here</span>
+                    </div>
+                    </>
+                )}
+                </>
+                )}
             
 
         </div>
