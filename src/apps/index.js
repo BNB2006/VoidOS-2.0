@@ -9,6 +9,7 @@ import { Map } from "./Iframe_Apps/Map"
 import { Browser } from "./Browser/Browser"
 import { Taskmanager } from "./Taskmanager/Taskmanager"
 import { Youtube } from "./YouTube/Youtube"
+import { Camera } from "./Camera/Camera"
 
  
 export const apps = [
@@ -130,7 +131,7 @@ export const apps = [
       alt: "camera",
       width: 34,
     }),
-    component: React.createElement(Map),
+    component: React.createElement(Camera),
     defaultSize: { width: 500, height: 400 },
   },
   
