@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useWindowManager } from '../WindowManager/WindowManager'
 import { Sidebar } from "./Sidebar"
-import { HeadphoneOff, Headphones } from "lucide-react"
+import { HeadphoneOff, Headphones, Power } from "lucide-react"
 
 export function Taskbar() {
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -91,6 +91,9 @@ export function Taskbar() {
         <div className="text-purple-300 hover:bg-gray-900 rounded p-2">
           {isPlaying ? <Headphones/> : <HeadphoneOff/>}
           <audio ref={audioRef} src={spotify[currentSong].songUrl} preload="auto" />
+        </div>
+        <div className="text-red-400 hover:bg-gray-900 rounded p-2">
+          <Power/>
         </div>
         <div className="text-[12px] px-2 rounded-md hover:bg-gray-900 flex flex-col text-end">
           <span>{currentTime.toLocaleTimeString([], {hour: "2-digit", minute:"2-digit"})}</span>

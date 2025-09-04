@@ -3,8 +3,9 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { Desktop } from "./components/Desktop/Desktop"
 import { Taskbar } from "./components/Taskbar/Taskbar"
 import { WindowManager } from "./components/WindowManager/WindowManager"
-import { SystemContext } from "./Context/SystemContext"
 import Loader from "./components/Power/Loader"
+import PowerButton from "./components/Power/PowerButton"
+import { SystemContext } from "./context/SystemContext"
 
 function App() {
   const { systemState } = useContext(SystemContext)
@@ -39,8 +40,22 @@ function App() {
   }, []);
 
   useEffect(()=>{
-    if(systemState === "restarting" | systemState === "loading") startLoader();
+    if(systemState === "restarting") startLoader();
+    if(systemState === "loading") startLoader();
+    if(systemState === "shutting-down") startLoader();
   }, [systemState]);
+
+  if(systemState === "shutting-down"){
+    return(
+      <Loader progress={progress} message="Shutting down..."/>
+    )
+  }
+
+  if(systemState === "off"){
+    return(
+      <PowerButton/>
+    )
+  }
   
   if(systemState === "restarting") return <Loader progress={progress} message="Restarting"/>
 

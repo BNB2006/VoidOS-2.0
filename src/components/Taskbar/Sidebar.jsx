@@ -4,7 +4,7 @@ import { SystemContext } from "../../Context/SystemContext";
 
 export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, onBack }) {
     const [currentTime, setCurrentTime] = useState(new Date())
-    const {restart} = useContext(SystemContext);
+    const {restart, shutdown} = useContext(SystemContext);
 
     useEffect(() => {
       const timer = setInterval(() => {
@@ -102,7 +102,7 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
               <div className=" bg-black/70 rounded-md p-7">
                 <input type="text" className="bg-gray-600 p-1 rounded-md ml-2 text-center outline-none" placeholder="🔍Seach..." />
                 <div className="flex items-center justify-around mt-3">
-                  <button title="comming soon..." className="text-red-400 cursor-not-allowed">
+                  <button onClick={shutdown} title="Shutdown" className="text-red-400 cursor-pointer">
                     <Power />
                   </button>
                   <button title="Restart" className="text-violet-300 cursor-pointer" onClick={restart}>
