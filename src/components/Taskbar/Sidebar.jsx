@@ -1,6 +1,6 @@
 import { CloudSun, BatteryMedium, Headphones, Sun, Cpu, Power, RefreshCcw, Lock, Moon, LogOut, ThermometerSunIcon, SkipBack, Play, SkipForward, Pause } from "lucide-react"
 import { useContext, useEffect, useState } from "react";
-import { SystemContext } from "../../Context/SystemContext";
+import { SystemContext } from "../../context/SystemContext";
 
 export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, onBack }) {
     const [currentTime, setCurrentTime] = useState(new Date())

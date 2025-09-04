@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Power } from "lucide-react";
-import { SystemContext } from "../../Context/SystemContext";
+import { SystemContext } from "../../context/SystemContext";
 
 const PowerButton = () => {
     const { powerON } = useContext(SystemContext);
