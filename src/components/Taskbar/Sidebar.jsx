@@ -6,6 +6,11 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
     const [currentTime, setCurrentTime] = useState(new Date())
     const {restart, shutdown} = useContext(SystemContext);
 
+    const [sound, setSound] = useState(50);
+    const [brightness, setBrightness] = useState(50);
+    const [cpu, setCpu] = useState(30);
+    const [battery, setBattery] = useState(69)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
     useEffect(() => {
       const timer = setInterval(() => {
         setCurrentTime(new Date())
@@ -14,7 +19,16 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
       return () => {
         clearInterval(timer)
       }
-    }, [])
+    }, []);
+
+    useEffect(() => {
+      const interval = setInterval(()=>{
+        setCpu(Math.floor(Math.random()*80) + 10);
+        setBattery((prev) => (prev > 10 ? prev -1 : 100));
+      }, 1000);
+
+      return () => clearInterval(interval);
+    });
 
 
   return(
@@ -67,34 +81,44 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
             <div className="py-1">
               <div className=" bg-black/70 rounded-md p-7">
 
-                <div className="flex items-center space-x-3 py-1">
-                  <div className="text-purple-400"><Headphones/></div>
-                  <div className="flex-1 bg-gray-600 rounded-full h-2 relative">
-                    <div className="bg-purple-400 h-2 rounded-full w-2/4"></div>
+                <div className="flex items-center space-x-3 py-1 text-purple-400">
+                  <div><Headphones/></div>
+                  <div className="flex-1 flex items-center gap-2">
+                    <input className="w-full h-2 rounded-lg bg-gray-600 accent-purple-400" type="range" min="0" max="100" value={sound} onChange={(e) => setSound(e.target.value)}/>
+                    <div className="text-xs">
+                      {Math.round(sound)}%
+                    </div>
                   </div>
               </div>
 
-                <div className="flex items-center space-x-3 py-1">
-                  <div className="text-red-400"><Sun/></div>
-                  <div className="flex-1 bg-gray-600 rounded-full h-2 relative">
-                    <div className="bg-red-400 h-2 rounded-full w-3/4"></div>
+                <div className="flex items-center space-x-3 py-1 text-red-400">
+                  <div className=""><Sun/></div>
+                  <div className="flex-1 flex items-center gap-2">
+                    <input className="w-full h-2 rounded-lg bg-gray-600 accent-red-400" type="range" min="0" max="100" value={brightness} onChange={(e) => setBrightness(e.target.value)} />
+                    <span className="text-xs">
+                      {Math.round(brightness)}%</span>
                   </div>
               </div>
 
-                <div className="flex items-center space-x-3 py-1">
-                  <div className="text-blue-400"><Cpu/></div>
+                <div className="flex items-center space-x-3 py-1 text-blue-400">
+                  <div><Cpu/></div>
                   <div className="flex-1 bg-gray-600 rounded-full h-2 relative">
-                    <div className="bg-blue-400 h-2 rounded-full w-1/4"></div>
+                    <div className="bg-blue-400 h-2 rounded-full" style={{width: `${cpu}%`}}/>
                   </div>
+                    <div className="text-xs">
+                      {Math.round(cpu)}%
+                    </div>
               </div>
  
-                <div className="flex items-center space-x-3 py-1">
-                  <div className="text-green-400"><BatteryMedium/></div>
+                <div className="flex items-center space-x-3 py-1 text-green-400">
+                  <div><BatteryMedium/></div>
                   <div className="flex-1 bg-gray-600 rounded-full h-2 relative">
-                    <div className="bg-green-400 h-2 rounded-full w-3/4"></div>
+                    <div className="bg-green-400 h-2 rounded-full" style={{width: `${battery}%`}}></div>
+                  </div>
+                  <div className="text-xs">
+                    {Math.round(battery)}%
                   </div>
               </div>
-
               </div>
             </div>
 
