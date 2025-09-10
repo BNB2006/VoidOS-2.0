@@ -4,11 +4,15 @@ import { useState, useEffect, useRef } from "react"
 import { useWindowManager } from '../WindowManager/WindowManager'
 import { Sidebar } from "./Sidebar"
 import { HeadphoneOff, Headphones, Power } from "lucide-react"
+import MusicWidget from "./MusicWidget"
+import PowerWidget from "./PowerWidget"
 
 export function Taskbar() {
   const [currentTime, setCurrentTime] = useState(new Date())
   const { windows, focusWindow, minimizeWindow, restoreWindow } = useWindowManager()
-  const [sideBar, setSideBar] = useState(false)
+  const [sideBar, setSideBar] = useState(false);
+  const [musicWidget, setMusicWidget] = useState(false);
+  const [powerWidget, setPowerWidget] = useState(false);
 
   const [spotify] = useState([
     { song: "Gone Gone Gone", imgUrl: "/assets/image/song1.jpg", songUrl: "/assets/audio/Phillip.mp3" },
@@ -61,7 +65,34 @@ export function Taskbar() {
   }
 
   const toggleSidebar = () => {
+    if(musicWidget){
+      toggleMusicWidget();
+    }
+    
+    if(powerWidget){
+      togglePowerWidget();
+    }
     setSideBar(!sideBar)
+  }
+  
+  const toggleMusicWidget = () => {
+    if(sideBar){
+      toggleSidebar();
+    }
+    if(powerWidget){
+      togglePowerWidget();
+    }
+    setMusicWidget(!musicWidget);
+  }
+  
+  const togglePowerWidget = () => {
+    if(sideBar){
+      toggleSidebar();
+    }
+    if(musicWidget){
+      toggleMusicWidget();
+    }
+    setPowerWidget(!powerWidget);
   }
 
   return (
@@ -87,15 +118,15 @@ export function Taskbar() {
         ))}        
       </div>
 
-      <div onClick={toggleSidebar} className="flex items-center">
-        <div className="text-purple-300 hover:bg-gray-900 rounded p-2">
+      <div className="flex items-center">
+        <div onClick={toggleMusicWidget} className="text-purple-300 hover:bg-gray-900 rounded p-2">
           {isPlaying ? <Headphones/> : <HeadphoneOff/>}
           <audio ref={audioRef} src={spotify[currentSong].songUrl} preload="auto" />
         </div>
-        <div className="text-red-400 hover:bg-gray-900 rounded p-2">
+        <div onClick={togglePowerWidget} className="text-red-400 hover:bg-gray-900 rounded p-2">
           <Power/>
         </div>
-        <div className="text-[12px] px-2 rounded-md hover:bg-gray-900 flex flex-col text-end">
+        <div onClick={toggleSidebar} className="text-[12px] px-2 rounded-md hover:bg-gray-900 flex flex-col text-end">
           <span>{currentTime.toLocaleTimeString([], {hour: "2-digit", minute:"2-digit"})}</span>
                 <span>{currentTime.toLocaleDateString()}</span>
               </div>
@@ -103,6 +134,8 @@ export function Taskbar() {
 
 
       {sideBar && (<Sidebar spotify={spotify} currentSong={currentSong} isPlaying={isPlaying} onPlayPause={handlePlayPause} onNext={handleNext} onBack={handleBack}/> )}
+      {musicWidget && <MusicWidget spotify={spotify} currentSong={currentSong} isPlaying={isPlaying} onPlayPause={handlePlayPause} onNext={handleNext} onBack={handleBack}/>}
+      {powerWidget && <PowerWidget/>}
 
     </div>
   )

@@ -1,6 +1,8 @@
 import { CloudSun, BatteryMedium, Headphones, Sun, Cpu, Power, RefreshCcw, Lock, Moon, LogOut, ThermometerSunIcon, SkipBack, Play, SkipForward, Pause } from "lucide-react"
 import { useContext, useEffect, useState } from "react";
 import { SystemContext } from "../../context/SystemContext";
+import MusicWidget from "./MusicWidget";
+import PowerWidget from "./PowerWidget";
 
 export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, onBack }) {
     const [currentTime, setCurrentTime] = useState(new Date())
@@ -61,22 +63,8 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
                 </div>
               </div>
             </div>
-
-          <div className="py-1">
-            <div className=" bg-black/70 flex gap-2 p-3 rounded-md">
-              <div className="w-15"><img src={spotify[currentSong].imgUrl} alt="" className="rounded" /></div>
-              <div className="flex flex-col items-center justify-center px-5">
-                <div className="text-sm text-red-200">{spotify[currentSong].song}</div>
-                <div className="flex items-center gap-3 mt-2">
-                  <button onClick={onBack}><SkipBack /></button>
-                  <button onClick={onPlayPause}>
-                    {isPlaying ? <Pause className="text-red-400" /> : <Play className="text-red-400" />}
-                  </button>
-                  <button onClick={onNext}><SkipForward /></button>
-                </div>
-              </div>
-            </div>
-          </div>
+            
+          <MusicWidget spotify={spotify} currentSong={currentSong} isPlaying={isPlaying} onPlayPause={onPlayPause} onNext={onNext} onBack={onNext} isSidebar={true}/>
 
             <div className="py-1">
               <div className=" bg-black/70 rounded-md p-7">
@@ -84,7 +72,7 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
                 <div className="flex items-center space-x-3 py-1 text-purple-400">
                   <div><Headphones/></div>
                   <div className="flex-1 flex items-center gap-2">
-                    <input className="w-full h-2 rounded-lg bg-gray-600 accent-purple-400" type="range" min="0" max="100" value={sound} onChange={(e) => setSound(e.target.value)}/>
+                    <input className="w-full h-1 rounded-lg bg-gray-600 accent-purple-400" type="range" min="0" max="100" value={sound} onChange={(e) => setSound(e.target.value)}/>
                     <div className="text-xs">
                       {Math.round(sound)}%
                     </div>
@@ -94,7 +82,7 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
                 <div className="flex items-center space-x-3 py-1 text-red-400">
                   <div className=""><Sun/></div>
                   <div className="flex-1 flex items-center gap-2">
-                    <input className="w-full h-2 rounded-lg bg-gray-600 accent-red-400" type="range" min="0" max="100" value={brightness} onChange={(e) => setBrightness(e.target.value)} />
+                    <input className="w-full h-1 rounded-lg bg-gray-600 accent-red-400" type="range" min="0" max="100" value={brightness} onChange={(e) => setBrightness(e.target.value)} />
                     <span className="text-xs">
                       {Math.round(brightness)}%</span>
                   </div>
@@ -102,8 +90,8 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
 
                 <div className="flex items-center space-x-3 py-1 text-blue-400">
                   <div><Cpu/></div>
-                  <div className="flex-1 bg-gray-600 rounded-full h-2 relative">
-                    <div className="bg-blue-400 h-2 rounded-full" style={{width: `${cpu}%`}}/>
+                  <div className="flex-1 bg-gray-600 rounded-full h-1 relative">
+                    <div className="bg-blue-400 h-1 rounded-full" style={{width: `${cpu}%`}}/>
                   </div>
                     <div className="text-xs">
                       {Math.round(cpu)}%
@@ -112,8 +100,8 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
  
                 <div className="flex items-center space-x-3 py-1 text-green-400">
                   <div><BatteryMedium/></div>
-                  <div className="flex-1 bg-gray-600 rounded-full h-2 relative">
-                    <div className="bg-green-400 h-2 rounded-full" style={{width: `${battery}%`}}></div>
+                  <div className="flex-1 bg-gray-600 rounded-full h-1 relative">
+                    <div className="bg-green-400 h-1 rounded-full" style={{width: `${battery}%`}}></div>
                   </div>
                   <div className="text-xs">
                     {Math.round(battery)}%
@@ -122,28 +110,8 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
               </div>
             </div>
 
-            <div className="py-1">
-              <div className=" bg-black/70 rounded-md p-7">
-                <input type="text" className="bg-gray-600 p-1 rounded-md ml-2 text-center outline-none" placeholder="🔍Seach..." />
-                <div className="flex items-center justify-around mt-3">
-                  <button onClick={shutdown} title="Shutdown" className="text-red-400 cursor-pointer">
-                    <Power />
-                  </button>
-                  <button title="Restart" className="text-violet-300 cursor-pointer" onClick={restart}>
-                    <RefreshCcw />
-                  </button>
-                  <button title="comming soon..." className="text-green-300 cursor-not-allowed">
-                    <Lock />
-                  </button>
-                  <button title="comming soon..." className="text-blue-300 cursor-not-allowed">
-                    <Moon />
-                  </button>
-                  <button title="comming soon..." className="text-orange-300 cursor-not-allowed">
-                    <LogOut />
-                  </button>
-                </div>
-              </div>
-            </div>
+            <PowerWidget isSidebar={true}/>
+            
           </div>
     )
 }
