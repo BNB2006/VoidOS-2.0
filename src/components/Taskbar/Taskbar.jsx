@@ -6,6 +6,7 @@ import { Sidebar } from "./Sidebar"
 import { HeadphoneOff, Headphones, Power } from "lucide-react"
 import MusicWidget from "./MusicWidget"
 import PowerWidget from "./PowerWidget"
+import { useVolume } from "../../context/volumeContext"
 
 export function Taskbar() {
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -20,7 +21,8 @@ export function Taskbar() {
   ])
   const [currentSong, setCurrentSong] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
-  const audioRef = useRef(null)
+  const audioRef = useRef(null);
+  const {volume} = useVolume();
 
   const handlePlayPause = () => {
     const audio = audioRef.current
@@ -46,10 +48,11 @@ export function Taskbar() {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.load()
+      audioRef.current.load();
+      audioRef.current.volume = volume/100;
       if (isPlaying) audioRef.current.play()
     }
-  }, [currentSong])
+  }, [currentSong, volume]);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)

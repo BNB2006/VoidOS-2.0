@@ -3,10 +3,11 @@ import { useContext, useEffect, useState } from "react";
 import { SystemContext } from "../../context/SystemContext";
 import MusicWidget from "./MusicWidget";
 import PowerWidget from "./PowerWidget";
+import { useVolume } from "../../context/volumeContext";
 
 export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, onBack }) {
     const [currentTime, setCurrentTime] = useState(new Date())
-    const {restart, shutdown} = useContext(SystemContext);
+    const {volume, setVolume} = useVolume();
 
     const [sound, setSound] = useState(50);
     const [brightness, setBrightness] = useState(50);
@@ -72,9 +73,13 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
                 <div className="flex items-center space-x-3 py-1 text-purple-400">
                   <div><Headphones/></div>
                   <div className="flex-1 flex items-center gap-2">
-                    <input className="w-full h-1 rounded-lg bg-gray-600 accent-purple-400" type="range" min="0" max="100" value={sound} onChange={(e) => setSound(e.target.value)}/>
+                    <input className="w-full h-1 rounded-lg bg-gray-600 accent-purple-400" type="range" min="0" max="100"
+                    //  value={sound} onChange={(e) => setSound(e.target.value)}
+                     value={volume} onChange={(e) => setVolume(Number(e.target.value))}
+                     />
                     <div className="text-xs">
-                      {Math.round(sound)}%
+                      {/* {Math.round(sound)}% */}
+                      {volume}
                     </div>
                   </div>
               </div>
