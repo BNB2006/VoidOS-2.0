@@ -49,7 +49,6 @@ export function Taskbar() {
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.load();
-      audioRef.current.volume = volume/100;
       if (isPlaying) audioRef.current.play()
     }
   }, [currentSong, isPlaying]);

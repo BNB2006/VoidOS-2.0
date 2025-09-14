@@ -3,7 +3,8 @@ import { createContext, useState } from "react";
 export const SystemContext = createContext();
 
 export function SystemProvider({children}){
-    const [systemState, setSystemState] = useState("running")
+    const [systemState, setSystemState] = useState("running");
+    const [brightness, setBrightness] = useState(100);
 
     const shutdown = () => {
         setSystemState("shutting-down");
@@ -25,7 +26,7 @@ export function SystemProvider({children}){
     }
 
 return(
-    <SystemContext.Provider value={{systemState, restart, shutdown, powerON}}>
+    <SystemContext.Provider value={{systemState, restart, shutdown, powerON, brightness, setBrightness}}>
         {children}
     </SystemContext.Provider>
 )

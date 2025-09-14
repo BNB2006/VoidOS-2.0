@@ -6,9 +6,10 @@ import { WindowManager } from "./components/WindowManager/WindowManager"
 import Loader from "./components/Power/Loader"
 import PowerButton from "./components/Power/PowerButton"
 import { SystemContext } from "./context/SystemContext"
+import { ArrowBigRight } from "lucide-react"
 
 function App() {
-  const { systemState } = useContext(SystemContext)
+  const { systemState, brightness } = useContext(SystemContext)
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const intervalRef = useRef(null);
@@ -62,7 +63,7 @@ function App() {
   if( isLoading | systemState === "loading") return <Loader progress={progress} message="Loading"/>
 
   return (
-    <div className="h-screen w-full overflow-hidden">
+    <div className="h-screen w-full overflow-hidden" style={{filter: `brightness(${brightness}%)`}}>
       <WindowManager>
         <Desktop/>
         <Taskbar/>

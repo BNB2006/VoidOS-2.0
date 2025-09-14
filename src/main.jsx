@@ -7,10 +7,10 @@ import { VolumeProvider } from './context/volumeContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-        <VolumeProvider>
+    <VolumeProvider>
       <SystemProvider>
         <App />
       </SystemProvider>
-        </VolumeProvider>
+    </VolumeProvider>
   </StrictMode>,
 )

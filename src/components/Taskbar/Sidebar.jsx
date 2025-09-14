@@ -1,16 +1,16 @@
 import { CloudSun, BatteryMedium, Headphones, Sun, Cpu, Power, RefreshCcw, Lock, Moon, LogOut, ThermometerSunIcon, SkipBack, Play, SkipForward, Pause } from "lucide-react"
 import { useContext, useEffect, useState } from "react";
-import { SystemContext } from "../../context/SystemContext";
 import MusicWidget from "./MusicWidget";
 import PowerWidget from "./PowerWidget";
 import { useVolume } from "../../context/volumeContext";
+import { SystemContext } from "../../context/SystemContext";
 
 export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, onBack }) {
     const [currentTime, setCurrentTime] = useState(new Date())
     const {volume, setVolume} = useVolume();
+    const {brightness, setBrightness} = useContext(SystemContext);
 
     const [sound, setSound] = useState(50);
-    const [brightness, setBrightness] = useState(50);
     const [cpu, setCpu] = useState(30);
     const [battery, setBattery] = useState(69)
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
@@ -74,12 +74,10 @@ export function Sidebar({ spotify, currentSong, isPlaying, onPlayPause, onNext, 
                   <div><Headphones/></div>
                   <div className="flex-1 flex items-center gap-2">
                     <input className="w-full h-1 rounded-lg bg-gray-600 accent-purple-400" type="range" min="0" max="100"
-                    //  value={sound} onChange={(e) => setSound(e.target.value)}
                      value={volume} onChange={(e) => setVolume(Number(e.target.value))}
                      />
                     <div className="text-xs">
-                      {/* {Math.round(sound)}% */}
-                      {volume}
+                      {volume}%
                     </div>
                   </div>
               </div>
