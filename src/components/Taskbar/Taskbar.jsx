@@ -52,7 +52,13 @@ export function Taskbar() {
       audioRef.current.volume = volume/100;
       if (isPlaying) audioRef.current.play()
     }
-  }, [currentSong, volume]);
+  }, [currentSong, isPlaying]);
+
+  useEffect(() => {
+    if(audioRef.current){
+      audioRef.current.volume = volume/100;
+    }
+  }, [volume])
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)
