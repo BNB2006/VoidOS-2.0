@@ -5,7 +5,7 @@ import { useContext } from "react";
 const PowerWidget = ({isSidebar}) => {
     const {restart, shutdown} = useContext(SystemContext);
     return(
-        <div className={`${isSidebar ? 'py-1' : 'absolute right-2 bottom-15'}`}>
+        <div className={`${isSidebar ? 'py-1' : 'absolute right-2 bottom-15 w-70'}`}>
             <div className=" bg-black/70 rounded-md p-7">
                 <input type="text" className="bg-gray-600 p-1 rounded-md ml-2 text-center outline-none" placeholder="🔍Seach..." />
                 <div className="flex items-center justify-around mt-3">

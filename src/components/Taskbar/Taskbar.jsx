@@ -7,6 +7,7 @@ import { HeadphoneOff, Headphones, Power } from "lucide-react"
 import MusicWidget from "./MusicWidget"
 import PowerWidget from "./PowerWidget"
 import { useVolume } from "../../context/volumeContext"
+import { motion, AnimatePresence } from "framer-motion"
 
 export function Taskbar() {
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -141,7 +142,21 @@ export function Taskbar() {
           </div>
 
 
-      {sideBar && (<Sidebar spotify={spotify} currentSong={currentSong} isPlaying={isPlaying} onPlayPause={handlePlayPause} onNext={handleNext} onBack={handleBack}/> )}
+      <AnimatePresence>
+        {sideBar && (
+          <motion.div key="main-widget"
+           initial={{ opacity:0, y:20 }}
+           animate={{ opacity:1, y:0 }}
+           exit={{ opacity:0, y:20 }}
+           transition={{ duration:0.3, ease:"easeOut"}}
+          >
+            <Sidebar 
+        spotify={spotify} currentSong={currentSong} 
+        isPlaying={isPlaying} onPlayPause={handlePlayPause} 
+        onNext={handleNext} onBack={handleBack}/> 
+          </motion.div>
+        )}
+      </AnimatePresence>
       {musicWidget && <MusicWidget spotify={spotify} currentSong={currentSong} isPlaying={isPlaying} onPlayPause={handlePlayPause} onNext={handleNext} onBack={handleBack}/>}
       {powerWidget && <PowerWidget/>}
 
